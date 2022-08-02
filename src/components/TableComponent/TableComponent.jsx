@@ -20,14 +20,26 @@ const TableComponent = () => {
             setUsers(userData);
             return;
         }
-        let filteredUser = userData?.filter((item) =>
+        let filteredUser = userData?.filter(item =>
             item?.name?.last?.toLowerCase()?.match(searchText.toLowerCase()) ||
             item?.name?.first?.toLowerCase()?.match(searchText.toLowerCase()) ||
             item?.email.toLowerCase()?.match(searchText.toLowerCase())
         );
-        setUsers(filteredUser)
+        setUsers(filteredUser);
     }, [searchText, userData]);
 
+
+    const handleGenderClicked = (e) => {
+        const gender = e.target.value;
+
+        if (gender === 'all') {
+            setUsers(userData);
+            return;
+        };
+
+        let filteredUser = userData?.filter(item => item.gender.toLowerCase() === gender);
+        setUsers(filteredUser);
+    }
 
     return (
         <Container>
@@ -41,21 +53,40 @@ const TableComponent = () => {
                         name=""
                         id=""
                         placeholder='Search...' />
-                    <div className="d-flex align-items-center ms-5">
+                    <div className="d-flex align-items-center ms-5" >
                         <div className='me-3'>
-                            <input className="form-check-input me-2" type="radio" name="flexRadioDefault" id="flexRadioDefault1" defaultChecked />
+                            <input
+                                className="form-check-input me-2"
+                                type="radio"
+                                name="flexRadioDefault"
+                                id="flexRadioDefault1"
+                                defaultChecked
+                                onClick={handleGenderClicked}
+                                value="all" />
                             <label className="form-check-label" htmlFor="flexRadioDefault1">
                                 All
                             </label>
                         </div>
                         <div className="me-3">
-                            <input className="form-check-input me-2" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                            <input
+                                className="form-check-input me-2"
+                                type="radio"
+                                name="flexRadioDefault"
+                                id="flexRadioDefault2"
+                                onClick={handleGenderClicked}
+                                value="male" />
                             <label className="form-check-label" htmlFor="flexRadioDefault2">
                                 Male
                             </label>
                         </div>
                         <div className="me-3">
-                            <input className="form-check-input me-2" type="radio" name="flexRadioDefault" id="flexRadioDefault3" />
+                            <input
+                                className="form-check-input me-2"
+                                type="radio"
+                                name="flexRadioDefault"
+                                id="flexRadioDefault3"
+                                onClick={handleGenderClicked}
+                                value="female" />
                             <label className="form-check-label" htmlFor="flexRadioDefault3">
                                 Female
                             </label>
@@ -104,7 +135,7 @@ const TableComponent = () => {
                 </tbody>
             </Table>
             {
-                !users.length && <h3 className='text-center'>Sorry no data found!</h3>
+                searchText.length > 0 && !users.length && <h3 className='text-center'>Sorry no data found!</h3>
             }
         </Container >
     );
