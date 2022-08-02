@@ -1,34 +1,67 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Container } from 'react-bootstrap';
+import UseData from '../../hooks/UseData';
+import SmallUserCard from '../SmallUserCard/SmallUserCard';
 import './TableComponent.css';
 
 const TableComponent = () => {
+    const [searchText, setSearchText] = useState('');
+    const [users, setUsers] = useState([]);
+    const userData = UseData();
+
+    const handleChange = (e) => {
+        e.preventDefault();
+
+        setSearchText(e.target.value);
+    }
+
+    useEffect(() => {
+        if (searchText === '') {
+            setUsers(userData);
+            return;
+        }
+        let filteredUser = userData?.filter((item) =>
+            item?.name?.last?.toLowerCase()?.match(searchText.toLowerCase()) ||
+            item?.name?.first?.toLowerCase()?.match(searchText.toLowerCase()) ||
+            item?.email.toLowerCase()?.match(searchText.toLowerCase())
+        );
+        setUsers(filteredUser)
+    }, [searchText, userData]);
+
+
     return (
         <Container>
             <div className="table-header d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center">
-                    <input className='me-5' type="text" name="" id="" placeholder='Search...' />
+                    <input
+                        onChange={handleChange}
+                        value={searchText}
+                        className='me-5'
+                        type="text"
+                        name=""
+                        id=""
+                        placeholder='Search...' />
                     <div className="d-flex align-items-center ms-5">
                         <div className='me-3'>
-                            <input className="form-check-input me-2" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-                            <label className="form-check-label" for="flexRadioDefault1">
+                            <input className="form-check-input me-2" type="radio" name="flexRadioDefault" id="flexRadioDefault1" defaultChecked />
+                            <label className="form-check-label" htmlFor="flexRadioDefault1">
                                 All
                             </label>
                         </div>
                         <div className="me-3">
-                            <input className="form-check-input me-2" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked />
-                            <label className="form-check-label" for="flexRadioDefault2">
+                            <input className="form-check-input me-2" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                            <label className="form-check-label" htmlFor="flexRadioDefault2">
                                 Male
                             </label>
                         </div>
                         <div className="me-3">
-                            <input className="form-check-input me-2" type="radio" name="flexRadioDefault" id="flexRadioDefault3" checked />
-                            <label className="form-check-label" for="flexRadioDefault3">
+                            <input className="form-check-input me-2" type="radio" name="flexRadioDefault" id="flexRadioDefault3" />
+                            <label className="form-check-label" htmlFor="flexRadioDefault3">
                                 Female
                             </label>
                         </div>
                     </div>
-                </div>
+                </div >
 
                 <div className="switch-wrappr d-flex align-items-center">
                     <p className='mb-0 me-3'>Tile View</p>
@@ -37,7 +70,7 @@ const TableComponent = () => {
                         <span className="slider round"></span>
                     </label>
                 </div>
-            </div>
+            </div >
 
             <Table>
                 <thead>
@@ -50,16 +83,30 @@ const TableComponent = () => {
                 </thead>
                 <tbody>
                     {
-                        [...new Array(6)].map((item, index) => <tr key={index}>
-                            <td>Mark Boutcher</td>
-                            <td>12-2-2022</td>
-                            <td>mb12</td>
+                        users?.map((item, index) => <tr key={index}>
+                            <td>
+                                <SmallUserCard
+                                    firstName={item?.name?.first}
+                                    lastName={item?.name?.last}
+                                    email={item?.email}
+                                    image={item?.picture?.medium}
+                                />
+                            </td>
+                            <td>
+                                {(new Date(item?.registered?.date).toDateString()).toString()}
+                            </td>
+                            <td>
+                                {item?.login?.username}
+                            </td>
                         </tr>)
                     }
 
                 </tbody>
             </Table>
-        </Container>
+            {
+                !users.length && <h3 className='text-center'>Sorry no data found!</h3>
+            }
+        </Container >
     );
 };
 
