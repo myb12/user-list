@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import Pagination from '../../components/shared/Pagination/Pagination';
 import TableHeader from '../../components/shared/TableHeader/TableHeader';
 import TableComponent from '../../components/TableComponent/TableComponent';
 import UseData from '../../hooks/UseData';
@@ -9,10 +10,14 @@ const Home = () => {
     const [users, setUsers] = useState([]);
     const [gender, setGender] = useState('all');
     const userData = UseData();
+    const [pageFrom, setPageFrom] = useState(0);
+    const [pageTo, setPageTo] = useState(10);
+
+    let dataPerPage = 10;
+    let numberOfPage = userData?.length / dataPerPage;
 
     const handleChange = (e) => {
         e.preventDefault();
-
         setSearchText(e.target.value);
     }
 
@@ -21,18 +26,26 @@ const Home = () => {
             setUsers(userData);
             return;
         }
-        let filteredUser = userData?.filter(item =>
-            (item?.name?.last?.toLowerCase()?.match(searchText.toLowerCase()) ||
-                item?.name?.first?.toLowerCase()?.match(searchText.toLowerCase()) ||
-                item?.email.toLowerCase()?.match(searchText.toLowerCase())) &&
-            item?.gender === gender
-        );
+        let filteredUser
+        if (gender === 'all') {
+            filteredUser = userData?.filter(item =>
+                item?.name?.last?.toLowerCase()?.includes(searchText.toLowerCase()) ||
+                item?.name?.first?.toLowerCase()?.includes(searchText.toLowerCase()) ||
+                item?.email.toLowerCase()?.includes(searchText.toLowerCase()));
+        } else {
+            filteredUser = userData?.filter(item =>
+                (item?.name?.last?.toLowerCase()?.includes(searchText.toLowerCase()) ||
+                    item?.name?.first?.toLowerCase()?.includes(searchText.toLowerCase()) ||
+                    item?.email.toLowerCase()?.includes(searchText.toLowerCase())) &&
+                item?.gender === gender
+            );
+        }
         setUsers(filteredUser);
     }
 
     useEffect(() => {
         handleSearch();
-    }, [searchText, userData]);
+    }, [searchText, userData]); // eslint-disable-line
 
 
     const handleGenderClicked = (e) => {
@@ -52,8 +65,7 @@ const Home = () => {
         setTileView(!tileView);
     };
 
-    console.log('tileView')
-
+    console.log('pageFrom', pageFrom, pageTo)
     return (
         <div>
             <TableHeader
@@ -64,8 +76,17 @@ const Home = () => {
             />
 
             {
-                tileView ? <h1>This is a tile view</h1> : <TableComponent users={users} searchText={searchText} />
+                tileView ? <h1>This is a tile view</h1> : <TableComponent users={users?.slice(pageFrom, pageTo)} searchText={searchText} />
             }
+
+            <Pagination
+                pageTo={pageTo}
+                pageFrom={pageFrom}
+                setPageFrom={setPageFrom}
+                setPageTo={setPageTo}
+                numberOfPage={numberOfPage}
+                dataPerPage={dataPerPage}
+            />
         </div>
     );
 };

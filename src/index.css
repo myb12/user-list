@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.pagination-item {
+  border-top: 2px solid transparent;
+}
+
+.active-page {
+  border-top: 2px solid #3737d3;
+}
