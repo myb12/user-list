@@ -66,7 +66,7 @@ const Home = () => {
     };
 
     return (
-        <div className="px-5 mt-5">
+        <div className="px-2 px-lg-5 mt-5">
             <TableHeader
                 handleGenderClicked={handleGenderClicked}
                 handleChange={handleChange}

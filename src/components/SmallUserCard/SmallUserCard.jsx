@@ -6,7 +6,7 @@ const SmallUserCard = ({ image, firstName, lastName, email }) => {
         <div className='small-user-card d-flex align-items-center'>
             <img className='me-3' src={image} alt="" />
             <div>
-                <h4>{lastName} {firstName} </h4>
+                <h5 className='mb-0'>{lastName} {firstName} </h5>
                 <span>{email}</span>
             </div>
         </div>

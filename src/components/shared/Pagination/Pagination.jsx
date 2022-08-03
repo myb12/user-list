@@ -32,7 +32,7 @@ const Pagination = ({ dataPerPage, numberOfPage, setPageFrom, setPageTo, pageFro
     }
     return (
         <Container>
-            <div className="pagination d-flex justify-content-end align-items-center">
+            <div className="pagination mt-2 d-flex justify-content-center justify-content-lg-end align-items-center">
                 <span onClick={() => handleNexPrev('prev')} >{'<'}</span>
                 {
                     [...Array(numberOfPage)].map((el, i) => <span

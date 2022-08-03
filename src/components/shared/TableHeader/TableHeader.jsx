@@ -5,8 +5,8 @@ import { BsSearch } from 'react-icons/bs';
 const TableHeader = ({ handleGenderClicked, handleChange, searchText, handleTileView }) => {
     return (
         <Container>
-            <div className="table-header d-flex align-items-center justify-content-between">
-                <div className="d-flex align-items-center">
+            <div className="table-header d-flex flex-column flex-lg-row align-items-center justify-content-between">
+                <div className="d-flex flex-column flex-lg-row align-items-center">
 
                     <form className="header-search-wrapper">
                         <input
@@ -19,7 +19,7 @@ const TableHeader = ({ handleGenderClicked, handleChange, searchText, handleTile
                         <BsSearch className="header-search-icon" />
                     </form>
 
-                    <div className="d-flex align-items-center ms-5 gender" >
+                    <div className="d-flex align-items-center mt-3 mt-lg-0 ms-lg-5 gender" >
                         <p className='mb-0 me-3'>Filter By</p>
                         <div className='me-3'>
                             <input
@@ -61,7 +61,7 @@ const TableHeader = ({ handleGenderClicked, handleChange, searchText, handleTile
                     </div>
                 </div >
 
-                <div className="switch-wrappr d-flex align-items-center">
+                <div className="switch-wrappr d-flex align-items-center mt-3 mt-lg-0 ">
                     <p className='mb-0 me-3'>Tile View</p>
                     <label className="switch" >
                         <input type="checkbox" onClick={handleTileView} />

@@ -4,20 +4,31 @@ import SmallUserCard from '../SmallUserCard/SmallUserCard';
 
 const TableComponent = ({ users, searchText }) => {
     return (
-        <Container>
-            <Table>
+        <Container className="table-component">
+            <Table responsive>
                 <thead>
                     <tr>
-
-                        <th>Name</th>
-                        <th>Registration Date</th>
-                        <th>Username</th>
+                        <th className="ps-4">
+                            <div className="table-heading">
+                                Name
+                            </div>
+                        </th>
+                        <th>
+                            <div className="table-heading">
+                                Registration Date
+                            </div>
+                        </th>
+                        <th>
+                            <div className="table-heading">
+                                Username
+                            </div>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         users?.map((item, index) => <tr key={index}>
-                            <td>
+                            <td className="ps-4">
                                 <SmallUserCard
                                     firstName={item?.name?.first}
                                     lastName={item?.name?.last}
@@ -26,10 +37,14 @@ const TableComponent = ({ users, searchText }) => {
                                 />
                             </td>
                             <td>
-                                {(new Date(item?.registered?.date).toDateString()).toString()}
+                                <div className="d-flex mt-4 registered">
+                                    {(new Date(item?.registered?.date).toDateString()).toString()}
+                                </div>
                             </td>
-                            <td>
-                                {item?.login?.username}
+                            <td className="pe-2">
+                                <div className="d-flex mt-4 username">
+                                    {item?.login?.username}
+                                </div>
                             </td>
                         </tr>)
                     }

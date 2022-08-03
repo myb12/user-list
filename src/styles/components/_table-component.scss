@@ -1,0 +1,44 @@
+.table-component {
+    margin-top: 16px;
+
+    thead {
+        height: 50px;
+        position: relative;
+        top: 10px;
+        background-color: $color-lighter;
+
+        th {
+            position: relative;
+            top: -10px;
+
+            .table-heading {
+                height: 50px;
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+
+    tr {
+        border-color: $color-lighter  !important;
+    }
+
+    tbody {
+        tr {
+            td {
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+        }
+    }
+
+    .table-responsive {
+        border-radius: 10px;
+        border: 1px solid $color-lighter;
+    }
+
+    .username,
+    .registered {
+        color: $color-light;
+    }
+}
