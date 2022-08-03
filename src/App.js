@@ -6,7 +6,7 @@ import { Container } from 'react-bootstrap';
 
 function App() {
   return (
-    <Container className='main-section'>
+    <Container className='main-section mb-5'>
       <TopBar />
       <Home />
     </Container>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Pagination from '../../components/shared/Pagination/Pagination';
 import TableHeader from '../../components/shared/TableHeader/TableHeader';
 import TableComponent from '../../components/TableComponent/TableComponent';
+import TileCardWrapper from '../../components/TileCardWrapper/TileCardWrapper';
 import UseData from '../../hooks/UseData';
 
 const Home = () => {
@@ -22,18 +23,19 @@ const Home = () => {
     }
 
     const handleSearch = () => {
+        console.log(searchText, userData?.slice(pageFrom, pageTo), users?.slice(pageFrom, pageTo).length)
         if (searchText === '') {
             setUsers(userData);
             return;
         }
         let filteredUser
         if (gender === 'all') {
-            filteredUser = userData?.filter(item =>
+            filteredUser = userData?.slice(pageFrom, pageTo)?.filter(item =>
                 item?.name?.last?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                 item?.name?.first?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                 item?.email.toLowerCase()?.includes(searchText.toLowerCase()));
         } else {
-            filteredUser = userData?.filter(item =>
+            filteredUser = userData?.slice(pageFrom, pageTo)?.filter(item =>
                 (item?.name?.last?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                     item?.name?.first?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                     item?.email.toLowerCase()?.includes(searchText.toLowerCase())) &&
@@ -41,6 +43,7 @@ const Home = () => {
             );
         }
         setUsers(filteredUser);
+        console.log(users)
     }
 
     useEffect(() => {
@@ -75,7 +78,11 @@ const Home = () => {
             />
 
             {
-                tileView ? <h1>This is a tile view</h1> : <TableComponent users={users?.slice(pageFrom, pageTo)} searchText={searchText} />
+                tileView
+                    ?
+                    <TileCardWrapper users={users?.slice(pageFrom, pageTo)} searchText={searchText} />
+                    :
+                    <TableComponent users={users?.slice(pageFrom, pageTo)} searchText={searchText} />
             }
 
             <Pagination

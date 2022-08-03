@@ -52,7 +52,7 @@ const TableComponent = ({ users, searchText }) => {
                 </tbody>
             </Table>
             {
-                searchText.length > 0 && !users.length && <h3 className='text-center'>Sorry no data found!</h3>
+                searchText.length > 0 && !users.length && <h4 className='text-center text-danger mt-3'>Sorry no data found!</h4>
             }
         </Container >
     );

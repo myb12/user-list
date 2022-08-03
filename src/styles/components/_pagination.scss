@@ -1,0 +1,16 @@
+.pagination {
+    padding-top: 18px;
+    padding-bottom: 18px;
+
+    span {
+        color: $color-light;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    svg {
+        cursor: pointer;
+        color: $color-light;
+        margin-top: 3px;
+    }
+}
