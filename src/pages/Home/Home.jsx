@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Pagination from '../../components/shared/Pagination/Pagination';
 import TableHeader from '../../components/shared/TableHeader/TableHeader';
 import TableComponent from '../../components/TableComponent/TableComponent';
-import TIleCard from '../../components/TIleCard/TIleCard';
 import TileCardWrapper from '../../components/TileCardWrapper/TileCardWrapper';
 import UseData from '../../hooks/UseData';
 
@@ -32,12 +31,12 @@ const Home = () => {
         }
         let filteredUser
         if (gender === 'all') {
-            filteredUser = userData?.filter(item =>
+            filteredUser = paginatedData?.filter(item =>
                 item?.name?.last?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                 item?.name?.first?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                 item?.email.toLowerCase()?.includes(searchText.toLowerCase()));
         } else {
-            filteredUser = userData?.filter(item =>
+            filteredUser = paginatedData?.filter(item =>
                 (item?.name?.last?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                     item?.name?.first?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                     item?.email.toLowerCase()?.includes(searchText.toLowerCase())) &&
@@ -71,7 +70,7 @@ const Home = () => {
 
         let filteredUser = userData?.filter(item => item.gender.toLowerCase() === genderValue);
         setUsers(filteredUser);
-        setPaginatedData(filteredUser);
+        setPaginatedData(filteredUser?.slice(0, 10));
     }
 
 
