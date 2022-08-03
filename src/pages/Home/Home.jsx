@@ -65,9 +65,8 @@ const Home = () => {
         setTileView(!tileView);
     };
 
-    console.log('pageFrom', pageFrom, pageTo)
     return (
-        <div>
+        <div className="px-5 mt-5">
             <TableHeader
                 handleGenderClicked={handleGenderClicked}
                 handleChange={handleChange}

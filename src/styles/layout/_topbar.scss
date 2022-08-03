@@ -1,0 +1,34 @@
+.top-bar {
+    @include flex-center;
+    height: 50px;
+    background-color: $color-bg;
+    color: $color-white;
+    width: 100%;
+    z-index: 10;
+    position: relative;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+
+
+    h5 {
+        margin-bottom: 0;
+    }
+
+    .dot-wrapper {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        left: 10px;
+
+        .dot {
+            height: 16px;
+            width: 16px;
+            background-color: $color-light;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+    }
+
+
+}
