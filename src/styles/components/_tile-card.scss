@@ -2,6 +2,11 @@
     border-radius: 6px;
     padding: 34px 20px;
     box-shadow: rgb(14 30 37 / 50%) 0px 2px 4px 0px, rgb(14 30 37 / 50%) 0px 0px 6px 0px;
+    height: 100%;
+
+    span {
+        word-break: break-word;
+    }
 
     p {
         color: $color-font;

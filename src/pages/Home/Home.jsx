@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Pagination from '../../components/shared/Pagination/Pagination';
 import TableHeader from '../../components/shared/TableHeader/TableHeader';
 import TableComponent from '../../components/TableComponent/TableComponent';
+import TIleCard from '../../components/TIleCard/TIleCard';
 import TileCardWrapper from '../../components/TileCardWrapper/TileCardWrapper';
 import UseData from '../../hooks/UseData';
 
@@ -13,6 +14,7 @@ const Home = () => {
     const userData = UseData();
     const [pageFrom, setPageFrom] = useState(0);
     const [pageTo, setPageTo] = useState(10);
+    const [paginatedData, setPaginatedData] = useState([]);
 
     let dataPerPage = 10;
     let numberOfPage = userData?.length / dataPerPage;
@@ -23,19 +25,19 @@ const Home = () => {
     }
 
     const handleSearch = () => {
-        console.log(searchText, userData?.slice(pageFrom, pageTo), users?.slice(pageFrom, pageTo).length)
         if (searchText === '') {
             setUsers(userData);
+            setPaginatedData(userData?.slice(pageFrom, pageTo));
             return;
         }
         let filteredUser
         if (gender === 'all') {
-            filteredUser = userData?.slice(pageFrom, pageTo)?.filter(item =>
+            filteredUser = userData?.filter(item =>
                 item?.name?.last?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                 item?.name?.first?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                 item?.email.toLowerCase()?.includes(searchText.toLowerCase()));
         } else {
-            filteredUser = userData?.slice(pageFrom, pageTo)?.filter(item =>
+            filteredUser = userData?.filter(item =>
                 (item?.name?.last?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                     item?.name?.first?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                     item?.email.toLowerCase()?.includes(searchText.toLowerCase())) &&
@@ -43,12 +45,19 @@ const Home = () => {
             );
         }
         setUsers(filteredUser);
-        console.log(users)
+        setPaginatedData(filteredUser);
     }
 
     useEffect(() => {
         handleSearch();
     }, [searchText, userData]); // eslint-disable-line
+
+    useEffect(() => {
+        if (pageFrom > 0) {
+            setPaginatedData(users);
+        }
+        setPaginatedData(users?.slice(pageFrom, pageTo));
+    }, [pageFrom, pageTo]); // eslint-disable-line
 
 
     const handleGenderClicked = (e) => {
@@ -56,11 +65,13 @@ const Home = () => {
         setGender(genderValue);
         if (genderValue === 'all') {
             setUsers(userData);
+            setPaginatedData(userData?.slice(pageFrom, pageTo));
             return;
         };
 
         let filteredUser = userData?.filter(item => item.gender.toLowerCase() === genderValue);
         setUsers(filteredUser);
+        setPaginatedData(filteredUser);
     }
 
 
@@ -80,9 +91,9 @@ const Home = () => {
             {
                 tileView
                     ?
-                    <TileCardWrapper users={users?.slice(pageFrom, pageTo)} searchText={searchText} />
+                    <TileCardWrapper users={paginatedData} searchText={searchText} />
                     :
-                    <TableComponent users={users?.slice(pageFrom, pageTo)} searchText={searchText} />
+                    <TableComponent users={paginatedData} searchText={searchText} />
             }
 
             <Pagination

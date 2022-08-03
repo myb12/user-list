@@ -5,7 +5,7 @@ const TileCardWrapper = ({ users, searchText }) => {
     return (
         <div className="row g-3 mt-4">
             {
-                users?.map((item, index) => <div key={index} className="col-12 col-lg-4">
+                users?.map((item, index) => <div key={index} className="col-12 col-md-6 col-xl-4">
                     <TIleCard user={item} />
                 </div>)
             }

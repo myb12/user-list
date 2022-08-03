@@ -35,7 +35,7 @@ const Pagination = ({ dataPerPage, numberOfPage, setPageFrom, setPageTo, pageFro
     return (
         <Container>
             <div className="pagination mt-2 d-flex justify-content-center justify-content-lg-end align-items-center">
-                <MdOutlineDoubleArrow className="rotate-180 me-4" onClick={() => handleNexPrev('prev')} />
+                <MdOutlineDoubleArrow className="rotate-180 me-3 me-lg-4" onClick={() => handleNexPrev('prev')} />
 
                 {
                     [...Array(numberOfPage)].map((el, i) => <span
@@ -43,7 +43,7 @@ const Pagination = ({ dataPerPage, numberOfPage, setPageFrom, setPageTo, pageFro
                         className={`px-4 py-2 pagination-item ${page === i + 1 ? 'active-page' : ''}`}
                         key={i} >{i + 1}</span>)
                 }
-                <MdOutlineDoubleArrow className='ms-4' onClick={() => handleNexPrev('next')} />
+                <MdOutlineDoubleArrow className='ms-3 ms-lg-4' onClick={() => handleNexPrev('next')} />
             </div>
         </Container>
     );
