@@ -1,7 +1,6 @@
 import React from 'react';
 import { Table, Container } from 'react-bootstrap';
 import SmallUserCard from '../SmallUserCard/SmallUserCard';
-import './TableComponent.css';
 
 const TableComponent = ({ users, searchText }) => {
     return (

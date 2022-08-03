@@ -1,20 +1,26 @@
 import React, { memo } from 'react';
 import { Container } from 'react-bootstrap';
+import { BsSearch } from 'react-icons/bs';
 
 const TableHeader = ({ handleGenderClicked, handleChange, searchText, handleTileView }) => {
     return (
         <Container>
             <div className="table-header d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center">
-                    <input
-                        onChange={handleChange}
-                        value={searchText}
-                        className='me-5'
-                        type="text"
-                        name=""
-                        id=""
-                        placeholder='Search...' />
-                    <div className="d-flex align-items-center ms-5" >
+
+                    <form className="header-search-wrapper">
+                        <input
+                            onChange={handleChange}
+                            value={searchText}
+                            type="text"
+                            className="header-search form-control me-2"
+                            placeholder="Search..."
+                        />
+                        <BsSearch className="header-search-icon" />
+                    </form>
+
+                    <div className="d-flex align-items-center ms-5 gender" >
+                        <p className='mb-0 me-3'>Filter By</p>
                         <div className='me-3'>
                             <input
                                 className="form-check-input me-2"
@@ -56,10 +62,6 @@ const TableHeader = ({ handleGenderClicked, handleChange, searchText, handleTile
                 </div >
 
                 <div className="switch-wrappr d-flex align-items-center">
-                    {/* <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onClick={handleTileView} />
-                        <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
-                    </div> */}
                     <p className='mb-0 me-3'>Tile View</p>
                     <label className="switch" >
                         <input type="checkbox" onClick={handleTileView} />

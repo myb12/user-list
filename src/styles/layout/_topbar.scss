@@ -2,7 +2,7 @@
     @include flex-center;
     height: 50px;
     background-color: $color-bg;
-    color: $color-white;
+    color: $color-white  !important;
     width: 100%;
     z-index: 10;
     position: relative;
