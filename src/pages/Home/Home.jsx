@@ -54,7 +54,6 @@ const Home = () => {
             setPageFrom(0);
             setPageTo(dataPerPage);
             setPage(1);
-            console.log('ddddddd', pageFrom, pageTo)
             if (page === 1) {
                 setPaginatedData(filteredUser.slice(pageFrom, pageTo));
                 let number = filteredUser && filteredUser.length > 10 ? Math.ceil(filteredUser.length / dataPerPage) : 1;
@@ -100,7 +99,6 @@ const Home = () => {
 
     useEffect(() => {
         setPaginatedData(users.slice(pageFrom, pageTo));
-        console.log('jhjhjhhj', page, pageFrom, pageTo)
     }, [page])  // eslint-disable-line
 
     const handleGenderClicked = (e) => {
