@@ -34,41 +34,41 @@ const Home = () => {
             setNumberOfPage(5);
             setUsers(userData);
             setPaginatedData(userData?.slice(pageFrom, pageTo));
-            return;
-        }
-
-        let filteredUser;
-        if (gender === 'all') {
-            filteredUser = userData?.filter(item =>
-                item?.name?.last?.toLowerCase()?.includes(searchText.toLowerCase()) ||
-                item?.name?.first?.toLowerCase()?.includes(searchText.toLowerCase()) ||
-                item?.email.toLowerCase()?.includes(searchText.toLowerCase()));
         } else {
-            filteredUser = userData?.filter(item =>
-                (item?.name?.last?.toLowerCase()?.includes(searchText.toLowerCase()) ||
+            let filteredUser;
+            if (gender === 'all') {
+                filteredUser = userData?.filter(item =>
+                    item?.name?.last?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                     item?.name?.first?.toLowerCase()?.includes(searchText.toLowerCase()) ||
-                    item?.email.toLowerCase()?.includes(searchText.toLowerCase())) &&
-                item?.gender === gender
-            );
-        }
-        setUsers(filteredUser);
+                    item?.email.toLowerCase()?.includes(searchText.toLowerCase()));
+            } else {
+                filteredUser = userData?.filter(item =>
+                    (item?.name?.last?.toLowerCase()?.includes(searchText.toLowerCase()) ||
+                        item?.name?.first?.toLowerCase()?.includes(searchText.toLowerCase()) ||
+                        item?.email.toLowerCase()?.includes(searchText.toLowerCase())) &&
+                    item?.gender === gender
+                );
+            }
+            setUsers(filteredUser);
 
-        setPageFrom(0);
-        setPageTo(dataPerPage);
-        setPage(1);
-
-        if (page === 1) {
-            setPaginatedData(filteredUser.slice(pageFrom, pageTo));
-            let number = filteredUser && filteredUser.length > 10 ? Math.ceil(filteredUser.length / dataPerPage) : 1;
-            setNumberOfPage(number);
-        } else {
-            setPaginatedData(filteredUser);
+            setPageFrom(0);
+            setPageTo(dataPerPage);
+            setPage(1);
+            console.log('ddddddd', pageFrom, pageTo)
+            if (page === 1) {
+                setPaginatedData(filteredUser.slice(pageFrom, pageTo));
+                let number = filteredUser && filteredUser.length > 10 ? Math.ceil(filteredUser.length / dataPerPage) : 1;
+                setNumberOfPage(number);
+            } else {
+                setPaginatedData(filteredUser);
+            }
         }
+
+
     }
 
     useEffect(() => {
         handleSearch();
-        
         let number;
         if (searchText.length && page > 1) {
 
@@ -82,30 +82,40 @@ const Home = () => {
     }, [searchText, userData]); // eslint-disable-line
 
     useEffect(() => {
-        let number;
         if (searchText.length) {
-
-            setTimeout(() => {
-                number = paginatedData && users.length > 10 ? Math.ceil(users.length / dataPerPage) : 1;
-            }, [1000])
-
+            let number = paginatedData && users.length > 10 ? Math.ceil(users.length / dataPerPage) : 1;
             setNumberOfPage(number);
             return;
         } else {
-            setPaginatedData(userData?.slice(pageFrom, pageTo))
+            if (gender === 'all') {
+                setPaginatedData(userData?.slice(pageFrom, pageTo));
+            } else {
+                let filteredData = userData?.filter(item => item.gender.toLowerCase() === gender)?.slice(pageFrom, pageTo);
+                setPaginatedData(filteredData);
+                let number = paginatedData && users.length > 10 ? Math.ceil(users.length / dataPerPage) : 1;
+                setNumberOfPage(number);
+            }
         }
-    }, [pageFrom, pageTo]); // eslint-disable-line
+    }, [pageFrom, pageTo, gender, searchText]); // eslint-disable-line
 
+    useEffect(() => {
+        setPaginatedData(users.slice(pageFrom, pageTo));
+        console.log('jhjhjhhj', page, pageFrom, pageTo)
+    }, [page])  // eslint-disable-line
 
     const handleGenderClicked = (e) => {
+        setSearchText('');
         const genderValue = e.target.value;
         setGender(genderValue);
+
         if (genderValue === 'all') {
             setUsers(userData);
             setPaginatedData(userData?.slice(pageFrom, pageTo));
+            setNumberOfPage(5);
             return;
         };
 
+        setPage(1);
         let filteredUser = userData?.filter(item => item.gender.toLowerCase() === genderValue);
         setUsers(filteredUser);
         setPaginatedData(filteredUser?.slice(0, 10));
