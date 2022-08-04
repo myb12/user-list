@@ -1,10 +1,9 @@
-import React, { memo, useCallback, useState } from 'react';
+import React, { memo, useCallback } from 'react';
 import { Container } from 'react-bootstrap';
 import { MdOutlineDoubleArrow } from 'react-icons/md';
 
 
-const Pagination = ({ dataPerPage, numberOfPage, setPageFrom, setPageTo, pageFrom, pageTo }) => {
-    const [page, setPage] = useState(1);
+const Pagination = ({ dataPerPage, numberOfPage, setPageFrom, setPageTo, pageFrom, pageTo, page, setPage }) => {
 
     const handlePagination = useCallback((pageInput) => {
         setPage(pageInput);
