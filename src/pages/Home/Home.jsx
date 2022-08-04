@@ -14,9 +14,14 @@ const Home = () => {
     const [pageFrom, setPageFrom] = useState(0);
     const [pageTo, setPageTo] = useState(10);
     const [paginatedData, setPaginatedData] = useState([]);
+    const [page, setPage] = useState(1);
+    const [numberOfPage, setNumberOfPage] = useState(5);
 
     let dataPerPage = 10;
-    let numberOfPage = userData?.length / dataPerPage;
+
+    useEffect(() => {
+        setNumberOfPage(userData?.length / dataPerPage)
+    }, [userData]) // eslint-disable-line
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -24,19 +29,22 @@ const Home = () => {
     }
 
     const handleSearch = () => {
+
         if (searchText === '') {
+            setNumberOfPage(5);
             setUsers(userData);
             setPaginatedData(userData?.slice(pageFrom, pageTo));
             return;
         }
-        let filteredUser
+
+        let filteredUser;
         if (gender === 'all') {
-            filteredUser = paginatedData?.filter(item =>
+            filteredUser = userData?.filter(item =>
                 item?.name?.last?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                 item?.name?.first?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                 item?.email.toLowerCase()?.includes(searchText.toLowerCase()));
         } else {
-            filteredUser = paginatedData?.filter(item =>
+            filteredUser = userData?.filter(item =>
                 (item?.name?.last?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                     item?.name?.first?.toLowerCase()?.includes(searchText.toLowerCase()) ||
                     item?.email.toLowerCase()?.includes(searchText.toLowerCase())) &&
@@ -44,18 +52,48 @@ const Home = () => {
             );
         }
         setUsers(filteredUser);
-        setPaginatedData(filteredUser);
+
+        setPageFrom(0);
+        setPageTo(dataPerPage);
+        setPage(1);
+
+        if (page === 1) {
+            setPaginatedData(filteredUser.slice(pageFrom, pageTo));
+            let number = filteredUser && filteredUser.length > 10 ? Math.ceil(filteredUser.length / dataPerPage) : 1;
+            setNumberOfPage(number);
+        } else {
+            setPaginatedData(filteredUser);
+        }
     }
 
     useEffect(() => {
         handleSearch();
+        
+        let number;
+        if (searchText.length && page > 1) {
+
+            setTimeout(() => {
+                number = paginatedData && users.length > 10 ? Math.ceil(users.length / dataPerPage) : 1;
+            }, [1000])
+
+            setNumberOfPage(number);
+            return;
+        }
     }, [searchText, userData]); // eslint-disable-line
 
     useEffect(() => {
-        if (pageFrom > 0) {
-            setPaginatedData(users);
+        let number;
+        if (searchText.length) {
+
+            setTimeout(() => {
+                number = paginatedData && users.length > 10 ? Math.ceil(users.length / dataPerPage) : 1;
+            }, [1000])
+
+            setNumberOfPage(number);
+            return;
+        } else {
+            setPaginatedData(userData?.slice(pageFrom, pageTo))
         }
-        setPaginatedData(users?.slice(pageFrom, pageTo));
     }, [pageFrom, pageTo]); // eslint-disable-line
 
 
@@ -102,6 +140,8 @@ const Home = () => {
                 setPageTo={setPageTo}
                 numberOfPage={numberOfPage}
                 dataPerPage={dataPerPage}
+                page={page}
+                setPage={setPage}
             />
         </div>
     );
